@@ -1,0 +1,7 @@
+{{ headline }}
+
+Hello {{ recipient_name }},
+
+{{ message }}
+
+Open PhysioCare: {{ action_url }}

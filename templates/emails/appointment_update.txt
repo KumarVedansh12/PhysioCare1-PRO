@@ -1,0 +1,10 @@
+{{ headline }}
+
+Hello {{ recipient_name }}, {{ message }}
+
+Doctor: {{ appointment.doctor }}
+Date and time: {{ appointment_time|date:"l, d F Y" }} at {{ appointment_time|time:"g:i A" }}
+Mode: {{ appointment.get_mode_display }}
+Reason: {{ appointment.concern }}
+
+View appointment: {{ action_url }}

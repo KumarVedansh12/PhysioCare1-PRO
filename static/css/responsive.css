@@ -5,11 +5,16 @@
     .exercise-grid { grid-template-columns: repeat(2, 1fr); }
     .assignment-grid { grid-template-columns: repeat(2, 1fr); }
     .library-row { grid-template-columns: repeat(2, 1fr); }
-    .progress-stats, .doctor-stats, .admin-stats { grid-template-columns: repeat(2, 1fr); }
+    .progress-stats, .doctor-stats, .admin-stats, .patient-admin-summary { grid-template-columns: repeat(2, 1fr); }
+    .reception-quick-grid { grid-template-columns: repeat(2, 1fr); }
     .records-table { overflow-x: auto; }
     .records-table-head, .records-table-row { min-width: 800px; }
     .doctor-patient-table, .admin-table { overflow-x: auto; }
     .doctor-patient-head, .doctor-patient-row, .admin-table-head, .admin-table-row { min-width: 850px; }
+    .management-filters { flex-wrap: wrap; }
+    .management-filters .wide { min-width: 100%; flex-basis: 100%; }
+    .employee-create-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .employee-create-form .employee-field-wide { grid-column: span 2; }
 }
 
 @media (max-width: 980px) {
@@ -76,7 +81,14 @@
     .blog-grid article > span, .blog-grid article > h3, .blog-grid article > p, .blog-grid article > a { margin-left: 0; }
     .blog-grid article > span { margin-top: 22px; }
     .faq-layout { grid-template-columns: 1fr; gap: 25px; }
-    .doctor-layout, .admin-layout { grid-template-columns: 1fr; }
+    .doctor-layout, .admin-layout, .reception-layout, .reception-form-layout, .reception-detail-grid { grid-template-columns: 1fr; }
+    .reception-layout > .reception-queue,
+    .reception-layout > .reception-patients,
+    .reception-layout > .available-panel,
+    .reception-layout > .reception-payments,
+    .reception-layout > .doctor-load-panel,
+    .reception-layout > .reception-enquiries { grid-column: auto; grid-row: auto; }
+    .reception-guide { position: static; }
     .patient-table-panel, .doctor-tools, .admin-table-panel { grid-column: auto; }
     .workspace-banner { align-items: flex-start; flex-direction: column; }
     .clinical-form-layout, .session-layout, .backup-layout { grid-template-columns: 1fr; }
@@ -88,7 +100,9 @@
     .timeline-panel { grid-row: auto; }
     .calendar-list { overflow-x: auto; }
     .calendar-list article { min-width: 900px; }
-    .management-layout { grid-template-columns: 1fr; }
+    .management-layout, .management-layout.section-employees { grid-template-columns: 1fr; }
+    .management-summary.employee-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .employee-form-panel { max-height: none; overflow: visible; }
     .management-nav { margin-left: 0; margin-right: 0; }
     .doctor-inbox { grid-template-columns: 230px minmax(0, 1fr); }
 }
@@ -154,7 +168,20 @@
     .exercise-safety { align-items: flex-start; }
     .exercise-safety a { display: none; }
     .library-section { padding: 21px; }
-    .progress-stats, .doctor-stats, .admin-stats { grid-template-columns: 1fr; }
+    .progress-stats, .doctor-stats, .admin-stats, .patient-admin-summary { grid-template-columns: 1fr; }
+    .reception-quick-grid { grid-template-columns: 1fr; }
+    .date-filter, .reception-search { width: 100%; align-items: stretch; flex-direction: column; }
+    .page-heading-actions { width: 100%; flex-direction: column; align-items: stretch; }
+    .page-heading-actions form, .page-heading-actions .btn { width: 100%; }
+    .reception-next-visit { align-items: stretch; flex-direction: column; }
+    .date-filter .form-control, .reception-search .btn { width: 100%; }
+    .reception-search > svg { top: 13px; }
+    .patient-result-list > a { grid-template-columns: auto 1fr auto; }
+    .patient-result-list > a > span:nth-child(3) { display: none; }
+    .payment-due-list article { grid-template-columns: 1fr auto; }
+    .payment-due-list form { grid-column: 1 / -1; }
+    .enquiry-list article { grid-template-columns: auto 1fr; }
+    .enquiry-list form { grid-column: 1 / -1; }
     .chart-wrap { height: 270px; }
     .record-categories { grid-template-columns: 1fr 1fr; }
     .records-section, .payment-history { padding: 20px; overflow: hidden; }
@@ -199,6 +226,29 @@
     .management-filters .form-control, .management-filters .btn { width: 100%; }
     .management-list-panel { padding: 16px; }
     .management-summary { grid-template-columns: 1fr; }
+    .management-summary.employee-summary { grid-template-columns: 1fr; }
+    .employee-edit-intro { align-items: flex-start; flex-wrap: wrap; }
+    .employee-edit-intro > div { flex-basis: calc(100% - 75px); }
+    .employee-edit-intro > span:last-child { width: 100%; }
+    .employee-form-panel { padding: 20px; }
+    .employee-create-form { grid-template-columns: 1fr; }
+    .employee-create-form .employee-field-wide { grid-column: auto; }
+    .employee-create-form > .btn { width: 100%; }
+    .employees-table { overflow: visible; }
+    .employees-table .management-table-head { display: none; }
+    .employees-table .management-table-row { min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 10px; margin-bottom: 14px; padding: 16px; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-sm); }
+    .employees-table .management-table-row > div:first-child,
+    .employees-table .management-table-row > .employee-actions { grid-column: 1 / -1; }
+    .employees-table .management-table-row > span { min-height: 72px; align-items: flex-start; justify-content: flex-start; padding: 10px 11px; background: var(--canvas); border-radius: 10px; white-space: normal; }
+    .employees-table .management-table-row > span::before { margin-bottom: 4px; color: var(--muted); font-size: .66rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+    .employees-table .management-table-row > span:nth-child(2)::before { content: "Work details"; }
+    .employees-table .management-table-row > span:nth-child(3)::before { content: "Contact"; }
+    .employees-table .management-table-row > span:nth-child(4)::before { content: "Shift / joined"; }
+    .employees-table .management-table-row > span:nth-child(5)::before { content: "Employment"; }
+    .employees-table .management-table-row > span:nth-child(6)::before { content: "Portal access"; }
+    .employees-table .management-table-row > .status i { display: none; }
+    .employee-actions form { flex: 1 1 150px; }
+    .employee-actions form .btn { width: 100%; }
     .doctor-inbox { display: block; }
     .inbox-patients { margin-bottom: 15px; }
     .inbox-conversation { min-height: 620px; }
@@ -212,4 +262,186 @@
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* Mobile resilience shared by every public and portal screen. */
+@media (max-width: 980px) {
+    .mobile-appbar { min-height: calc(66px + env(safe-area-inset-top)); height: auto; padding: env(safe-area-inset-top) 18px 0; }
+    .sidebar { width: min(300px, 88vw); max-width: 100%; padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+    .sidebar-nav { overscroll-behavior: contain; }
+    .page-content { width: 100%; }
+    .workspace-nav, .tabs, .step-tabs, .compact-tabs { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+    .workspace-nav > *, .tabs > *, .step-tabs > * { flex: 0 0 auto; }
+    .records-table, .doctor-patient-table, .admin-table, .management-table, .calendar-list, .reception-table { width: 100%; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+    .management-list-panel, .records-section, .payment-history, .patient-table-panel, .admin-table-panel, .management-panel { min-width: 0; max-width: 100%; }
+    .search-select-menu { max-height: min(310px, 48vh); }
+}
+
+@media (max-width: 700px) {
+    body { font-size: 16px; line-height: 1.55; }
+    .public-body small, .portal-body small { font-size: .78rem !important; line-height: 1.45; }
+    .container { width: calc(100% - 28px); }
+    .nav-wrap { min-height: 70px; }
+    .public-nav { top: 68px; max-height: calc(100svh - 84px); overflow-y: auto; overscroll-behavior: contain; }
+    .public-nav .btn { width: 100%; }
+    .mobile-appbar { padding-left: 14px; padding-right: 14px; }
+    .mobile-appbar .brand { min-width: 0; }
+    .mobile-appbar .brand > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .page-content { padding-right: 14px; padding-bottom: calc(44px + env(safe-area-inset-bottom)); padding-left: 14px; }
+    .toast-stack { top: calc(76px + env(safe-area-inset-top)); right: 12px; width: calc(100% - 24px); }
+    .page-heading, .page-heading > div, .workspace-banner > div { min-width: 0; width: 100%; }
+    .page-heading { gap: 14px; margin-bottom: 22px; }
+    .page-heading h1 { max-width: 100%; font-size: clamp(1.85rem, 9vw, 2.4rem); }
+    .page-heading p { max-width: 100%; }
+    .workspace-banner h1 { font-size: clamp(1.8rem, 8vw, 2.15rem); }
+    .workspace-banner > div:last-child { align-items: stretch; }
+    .workspace-banner > div:last-child .btn { width: 100%; }
+    .workspace-nav { scroll-snap-type: x proximity; }
+    .workspace-nav a { min-height: 44px; scroll-snap-align: start; }
+    .panel { max-width: 100%; border-radius: 15px; }
+    .panel-head { min-width: 0; flex-wrap: wrap; gap: 12px; }
+    .panel-head > div { min-width: 0; }
+    .form-section-heading { align-items: flex-start; }
+    .form-section-heading > div { min-width: 0; }
+    .form-control, input, select, textarea { font-size: 16px !important; }
+    input[type="file"] { width: 100%; }
+    .btn { min-height: 48px; padding: 11px 16px; line-height: 1.25; white-space: normal; }
+    .btn-sm { min-height: 44px; }
+    .icon-button, .send-button { width: 44px; min-width: 44px; height: 44px; padding: 0; }
+    .status { max-width: 100%; white-space: normal; }
+    .tabs { padding: 0 14px; }
+    .tabs button { min-height: 48px; padding-right: 12px; padding-left: 12px; white-space: nowrap; }
+    .step-tabs { gap: 18px; }
+    .step-tabs span { white-space: nowrap; }
+    .modal { align-items: flex-end; padding: 10px; }
+    .modal-dialog { width: 100%; max-height: calc(100svh - 20px); padding: 25px 20px calc(25px + env(safe-area-inset-bottom)); border-radius: 18px 18px 12px 12px; }
+    .card-actions { align-items: stretch; flex-direction: column; }
+    .appointment-title { min-width: 0; align-items: flex-start; flex-wrap: wrap; }
+    .appointment-main { min-width: 0; }
+    .appointment-actions { padding-left: 0; }
+    .appointment-actions, .appointment-actions form, .appointment-actions .btn { width: 100%; }
+    .doctor-inline { min-width: 0; align-items: flex-start; }
+    .doctor-inline > div { min-width: 0; }
+    .document-row, .record-card, .notification-row, .reminder-item { align-items: flex-start; }
+    .document-row > div, .record-card > div, .notification-row > span:nth-child(2), .reminder-item > span:nth-child(2) { min-width: 0; }
+    .records-table-head, .records-table-row { min-width: 760px; }
+    .payment-table .records-table-head, .payment-table .records-table-row { min-width: 820px; }
+    .payment-summary > div:first-child { min-width: 0; align-items: flex-start; }
+    .accepted-methods > div { flex-wrap: wrap; }
+    .payment-help { align-items: flex-start; }
+    .payment-help a { margin-left: 0; }
+    .checkout-form, .order-summary { padding: 22px 18px; }
+    .order-summary dl > div { gap: 16px; }
+    .order-summary dd { min-width: 0; margin-left: auto; text-align: right; overflow-wrap: anywhere; }
+    .chat-layout, .doctor-inbox { min-height: 0; }
+    .chat-window, .inbox-conversation { min-height: clamp(520px, calc(100svh - 105px), 680px); }
+    .chat-header, .inbox-conversation > header { min-width: 0; align-items: flex-start; gap: 10px; padding: 12px; }
+    .chat-header > div:last-child, .inbox-conversation > header > div:last-child { flex-wrap: wrap; justify-content: flex-end; }
+    .message-list { min-height: 300px; padding: 15px 12px; }
+    .message > div { max-width: 88%; min-width: 0; }
+    .message-bubble, .message-attachment { overflow-wrap: anywhere; }
+    .chat-composer, .doctor-reply-form { min-width: 0; flex-wrap: wrap; padding: 10px; }
+    .composer-input, .doctor-reply-form textarea { width: 100%; flex: 1 1 100%; order: -1; }
+    .composer-tools { flex: 1; }
+    .video-preview { min-height: 360px; }
+    .video-controls { flex-wrap: wrap; gap: 8px; padding: 14px; }
+    .video-control { min-width: 48px; min-height: 46px; justify-content: center; }
+    .video-details { padding: 22px 18px; }
+    .privacy-caption { align-items: flex-start; text-align: left; }
+    .chart-wrap { height: 260px; }
+    .chart-legend, .chart-summary { flex-wrap: wrap; }
+    .admin-chart { max-width: 100%; overflow-x: auto; }
+    .admin-chart > * { flex: 0 0 auto; }
+    .bar-chart { min-width: 270px; }
+    .schedule-list article { min-width: 0; }
+    .schedule-list article > div { min-width: 0; }
+    .schedule-actions { grid-column: 1 / -1; flex-wrap: wrap; padding-left: 66px; }
+    .schedule-actions .btn { width: auto; flex: 1 1 130px; }
+    .clinical-timeline .timeline-title { align-items: flex-start; flex-direction: column; }
+    .patient-action-bar a { min-height: 56px; text-align: center; }
+    .management-table-head, .management-table-row { min-width: 840px; }
+    .management-filters .table-search, .management-filters .table-search input { width: 100%; }
+    .management-form-panel, .management-list-panel, .employee-edit-panel { padding: 20px; }
+    .inline-status-form { flex-wrap: wrap; }
+    .inline-status-form .form-control { flex: 1 1 150px; }
+    .cms-actions { flex-wrap: wrap; }
+    .backup-detail { flex-direction: column; }
+    .reception-layout > .panel, .reception-detail-grid > .panel { padding: 20px; }
+    .reception-table-head, .reception-table-row { min-width: 880px; }
+    .queue-action, .queue-action form, .payment-due-list form, .enquiry-list form { flex-wrap: wrap; }
+    .payment-due-list form .form-control, .enquiry-list form .form-control { flex: 1 1 180px; }
+    .payment-due-list form .btn, .enquiry-list form .icon-button { flex: 0 0 auto; }
+    .reception-form-panel, .reception-guide { padding: 21px 18px; }
+    .reception-next-visit { align-items: flex-start; }
+    .patient-payment-list form { min-width: 0; }
+    .employee-edit-form { gap: 18px; }
+}
+
+@media (max-width: 480px) {
+    .container { width: calc(100% - 24px); }
+    .brand { font-size: 1rem; }
+    .brand-mark { width: 39px; height: 39px; }
+    .public-header .brand small { display: none; }
+    .hero-copy h1 { font-size: clamp(2.55rem, 13vw, 3.05rem); }
+    .hero-visual { min-height: 350px; margin: -55px -65px; transform: scale(.72); }
+    .trust-row { align-items: flex-start; flex-direction: column; }
+    .trust-stats strong { font-size: 1.45rem; }
+    .section { padding: 58px 0; }
+    .story-card, .faq-layout { padding: 25px 18px; }
+    .cta-card { padding: 30px 20px; }
+    .register-intro { padding: 36px 20px; }
+    .register-card, .auth-panel { width: calc(100% - 28px); }
+    .form-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+    .demo-switcher { align-items: stretch; flex-direction: column; }
+    .demo-switcher a, .demo-switcher > span { justify-content: center; }
+    .mobile-appbar .brand-mark { width: 36px; height: 36px; }
+    .mobile-appbar .brand > span:last-child { font-size: .94rem; }
+    .page-content { padding-right: 12px; padding-left: 12px; }
+    .next-care-copy, .treatment-copy { padding: 22px 18px; }
+    .next-care-art { min-height: 155px; }
+    .care-circle { width: 125px; height: 125px; }
+    .care-tip { right: 50%; width: max-content; max-width: calc(100% - 24px); transform: translateX(50%); }
+    .dashboard-grid .panel, .treatment-grid .panel, .library-section, .records-section, .payment-history { padding: 18px; }
+    .appointment-list { padding: 0 13px; }
+    .appointment-card { grid-template-columns: 58px minmax(0, 1fr); gap: 11px; }
+    .appointment-actions { grid-column: 1 / -1; }
+    .profile-form-panel { padding: 18px; }
+    .history-row { align-items: flex-start; }
+    .record-categories { grid-template-columns: 1fr; }
+    .record-card { padding: 13px; }
+    .document-grid { grid-template-columns: 1fr; }
+    .notification-list { padding: 4px 13px; }
+    .payment-summary { padding: 22px 18px; }
+    .payment-summary > div:first-child > span { width: 50px; height: 50px; flex: 0 0 auto; }
+    .accepted-methods { width: 100%; }
+    .payment-method-choices { grid-template-columns: 1fr; }
+    .chat-window, .inbox-conversation { min-height: clamp(500px, calc(100svh - 92px), 640px); }
+    .chat-header .doctor-inline .avatar { display: none; }
+    .message > div { max-width: 92%; }
+    .video-preview { min-height: 315px; }
+    .camera-placeholder .avatar-xxl { width: 96px; height: 96px; }
+    .workspace-metrics { grid-template-columns: 1fr; }
+    .patient-action-bar { grid-template-columns: 1fr 1fr; }
+    .patient-timeline-grid > .panel { padding: 18px; }
+    .management-summary article { min-width: 0; }
+    .management-form-panel, .management-list-panel, .employee-form-panel, .employee-edit-panel { padding: 17px; }
+    .employees-table .management-table-row { grid-template-columns: 1fr; }
+    .employees-table .management-table-row > div:first-child,
+    .employees-table .management-table-row > .employee-actions { grid-column: auto; }
+    .employee-actions { align-items: stretch; flex-direction: column; }
+    .employee-actions form { flex: 0 0 auto; }
+    .employee-actions > *, .employee-actions .btn { width: 100%; }
+    .employee-edit-intro { padding: 14px; }
+    .cms-list article { grid-template-columns: 1fr; }
+    .cms-list article > * { grid-column: auto; }
+    .backup-card, .restore-guidance { padding: 20px 17px; }
+    .reception-quick-grid { grid-template-columns: 1fr; }
+    .patient-result-list > a { grid-template-columns: auto minmax(0, 1fr) auto; }
+    .payment-due-list article, .enquiry-list article { grid-template-columns: 1fr; }
+    .payment-due-list article > *, .enquiry-list article > * { grid-column: auto; }
+    .payment-due-list form, .enquiry-list form { width: 100%; }
+    .detail-appointment-list article { grid-template-columns: 52px minmax(0, 1fr); }
+    .detail-appointment-list article > .status { grid-column: 2; }
+    .patient-payment-list article, .patient-payment-list form { grid-template-columns: 1fr; }
+    .patient-payment-list article > *, .patient-payment-list form > * { grid-column: auto; }
 }

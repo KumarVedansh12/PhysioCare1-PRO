@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    env_file: .env
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      - private_media:/srv/physiocare/media
+    restart: unless-stopped
+
+  reminders:
+    build: .
+    env_file: .env
+    entrypoint: []
+    command: ["python", "manage.py", "send_appointment_reminders", "--watch"]
+    restart: unless-stopped
+
+volumes:
+  private_media:

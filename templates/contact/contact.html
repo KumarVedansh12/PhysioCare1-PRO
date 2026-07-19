@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Contact our care team — PhysioCare{% endblock %}
+{% block content %}
+<section class="section"><div class="container"><div class="section-heading"><span class="eyebrow">We are here to help</span><h1>Contact our care team</h1><p>Ask about appointments, physiotherapy services, billing, or your patient account.</p></div>
+<div class="content-grid"><div class="surface-card"><form method="post" class="form-grid">{% csrf_token %}{% for field in form %}<div class="form-group {% if field.name == 'subject' or field.name == 'message' %}full-span{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endfor %}<button class="btn btn-primary btn-lg full-span" type="submit">Send message <i data-lucide="send"></i></button></form></div>
+<aside class="surface-card"><span class="feature-icon"><i data-lucide="phone-call"></i></span><h2>Need faster help?</h2><p><strong>Call:</strong> <a href="tel:+918001234567">+91 800 123 4567</a></p><p><strong>Email:</strong> <a href="mailto:{{ support_email|default:'care@physiocare.in' }}">{{ support_email|default:'care@physiocare.in' }}</a></p><p>Monday–Saturday, 8am–8pm</p><div class="alert alert-soft"><strong>Medical emergency?</strong><p>Contact your local emergency service immediately. Do not use this form for urgent care.</p></div></aside></div></div></section>
+{% endblock %}

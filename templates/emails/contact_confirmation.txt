@@ -1,0 +1,5 @@
+Hello {{ contact.name }},
+
+Thank you for contacting PhysioCare. We received your enquiry about "{{ contact.subject }}" and will respond as soon as possible.
+
+If this is a medical emergency, contact your local emergency service immediately.

@@ -1,0 +1,8 @@
+Hello {{ user.first_name|default:user.username }},
+
+Your PhysioCare verification code is: {{ code }}
+
+It expires in {{ expiry_minutes }} minutes. Do not share this code.
+Verify here: {{ verify_url }}
+
+PhysioCare

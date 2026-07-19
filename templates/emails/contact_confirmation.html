@@ -1,0 +1,5 @@
+{% extends "emails/base.html" %}{% block email_content %}
+<h1 style="font-size:28px;line-height:1.25;margin:0 0 14px">We received your message</h1>
+<p>Hello {{ contact.name }}, thank you for contacting PhysioCare. Our care team has received your enquiry about “{{ contact.subject }}” and will respond as soon as possible.</p>
+<p style="background:#eef8f1;padding:18px;border-radius:12px">If this is a medical emergency, contact your local emergency service immediately.</p>
+{% endblock %}

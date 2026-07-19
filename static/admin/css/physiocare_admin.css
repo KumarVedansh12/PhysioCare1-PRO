@@ -1,0 +1,426 @@
+/* PhysioCare Advanced Admin: readable, responsive and overlap-safe. */
+:root,
+html[data-theme="light"] {
+    --primary: #4b8d78;
+    --secondary: #306d5c;
+    --accent: #f3df7a;
+    --header-bg: #306d5c;
+    --breadcrumbs-bg: #285c4f;
+    --link-fg: #2f7563;
+    --link-hover-color: #22594b;
+    --link-selected-fg: #255e50;
+    --button-bg: #3e806c;
+    --button-hover-bg: #2e6a59;
+    --default-button-bg: #2f705e;
+    --default-button-hover-bg: #245b4c;
+}
+
+body {
+    min-width: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+#container,
+.main,
+.content,
+#content,
+#changelist,
+.changelist-form-container,
+#changelist-form {
+    min-width: 0;
+}
+
+#header {
+    min-height: 72px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    padding: 15px clamp(20px, 3vw, 42px);
+}
+
+#branding,
+#site-name {
+    min-width: 0;
+}
+
+#site-name {
+    padding: 0;
+    font-size: clamp(1.45rem, 2.2vw, 2rem);
+    line-height: 1.2;
+}
+
+#site-name a {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+#user-tools {
+    max-width: 100%;
+    margin: 0;
+    line-height: 1.8;
+    white-space: normal;
+    text-align: right;
+}
+
+div.breadcrumbs {
+    min-height: 48px;
+    box-sizing: border-box;
+    padding: 12px clamp(20px, 3vw, 42px);
+    font-size: .94rem;
+    overflow-wrap: anywhere;
+}
+
+.main {
+    width: 100%;
+    align-items: stretch;
+}
+
+#nav-sidebar {
+    flex: 0 0 300px;
+    width: 300px;
+    max-height: calc(100vh - 120px);
+    position: sticky;
+    top: 0;
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
+#nav-sidebar table {
+    table-layout: fixed;
+}
+
+#nav-sidebar .module th,
+#nav-sidebar .module td,
+#nav-sidebar .module a {
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+}
+
+#nav-sidebar .module td {
+    width: 72px;
+    white-space: normal;
+    text-align: right;
+}
+
+#nav-filter {
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: .94rem;
+}
+
+.main.shifted > #nav-sidebar + .content {
+    max-width: calc(100% - 324px);
+}
+
+.main > #nav-sidebar + .content {
+    max-width: calc(100% - 24px);
+}
+
+.content {
+    flex: 1 1 auto;
+    width: auto;
+    overflow: hidden;
+}
+
+#content {
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 28px clamp(20px, 3vw, 42px) 44px;
+}
+
+#content h1 {
+    max-width: 100%;
+    margin-bottom: 24px;
+    font-size: clamp(1.55rem, 2vw, 2rem);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.object-tools {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: -58px 0 26px;
+}
+
+.object-tools li {
+    float: none;
+    margin: 0;
+}
+
+.object-tools a {
+    min-height: 42px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 15px;
+    white-space: normal;
+}
+
+#changelist {
+    width: 100%;
+    gap: 24px;
+}
+
+#changelist .changelist-form-container {
+    overflow: hidden;
+}
+
+#changelist-form .results {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+    scrollbar-width: thin;
+}
+
+#changelist-form .results table {
+    width: 100%;
+    min-width: 680px;
+}
+
+#changelist table th,
+#changelist table td {
+    box-sizing: border-box;
+    padding: 12px 14px;
+    font-size: .96rem;
+    line-height: 1.45;
+    vertical-align: middle;
+}
+
+#changelist table tbody th,
+#changelist table tbody td {
+    overflow-wrap: anywhere;
+}
+
+#changelist .actions {
+    min-height: 58px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px 12px;
+    padding: 10px 14px;
+}
+
+#changelist .actions label {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#changelist .actions select {
+    width: min(310px, 70vw);
+    min-height: 42px;
+    margin: 0;
+    font-size: .95rem;
+}
+
+#changelist .actions .button,
+#toolbar input[type="submit"] {
+    min-height: 42px;
+    margin: 0;
+    padding: 8px 14px;
+}
+
+#changelist .actions .action-counter,
+#changelist .actions span.all,
+#changelist .actions span.question,
+#changelist .actions span.clear {
+    margin: 0;
+    font-size: .88rem;
+    white-space: normal;
+}
+
+#toolbar {
+    box-sizing: border-box;
+    padding: 12px 14px;
+}
+
+#changelist-search > div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+#toolbar form #searchbar {
+    min-width: min(320px, 70vw);
+    min-height: 42px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 8px 10px;
+    font-size: 1rem;
+}
+
+#changelist-filter {
+    flex: 0 0 250px;
+    min-width: 0;
+    margin-left: 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+#changelist-filter h2,
+#changelist-filter h3,
+#changelist-filter a {
+    overflow-wrap: anywhere;
+}
+
+.form-row,
+.aligned .form-row,
+.form-row > div,
+.related-widget-wrapper {
+    min-width: 0;
+}
+
+.aligned .form-row > div {
+    box-sizing: border-box;
+}
+
+.form-row input:not([type]),
+.form-row input[type="text"],
+.form-row input[type="password"],
+.form-row input[type="email"],
+.form-row input[type="url"],
+.form-row input[type="tel"],
+.form-row input[type="number"],
+.form-row input[type="date"],
+.form-row textarea,
+.form-row select,
+.form-row .vTextField {
+    max-width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.form-row textarea {
+    width: min(100%, 760px);
+}
+
+.related-widget-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.submit-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.submit-row input,
+.submit-row a,
+.button,
+input[type="submit"],
+input[type="button"] {
+    min-height: 42px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1180px) {
+    #nav-sidebar {
+        flex-basis: 250px;
+        width: 250px;
+    }
+
+    .main.shifted > #nav-sidebar + .content {
+        max-width: calc(100% - 274px);
+    }
+
+    #changelist {
+        display: block;
+    }
+
+    #changelist-filter {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 22px 0 0;
+    }
+}
+
+@media (max-width: 900px) {
+    #header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #user-tools {
+        text-align: left;
+    }
+
+    #nav-sidebar,
+    #toggle-nav-sidebar {
+        display: none;
+    }
+
+    .main > #nav-sidebar + .content,
+    .main.shifted > #nav-sidebar + .content {
+        max-width: 100%;
+    }
+
+    .object-tools {
+        justify-content: flex-start;
+        margin: 0 0 22px;
+    }
+
+    #content h1 {
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        font-size: 1rem;
+    }
+
+    #header,
+    div.breadcrumbs,
+    #content {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    #changelist .actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #changelist .actions label,
+    #changelist .actions select,
+    #changelist .actions .button,
+    #toolbar form #searchbar {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #changelist-search > div {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .submit-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .submit-row input,
+    .submit-row a {
+        width: 100%;
+        margin: 0;
+        text-align: center;
+    }
+}

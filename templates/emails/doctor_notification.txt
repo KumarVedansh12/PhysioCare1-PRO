@@ -1,0 +1,9 @@
+{{ headline }}
+
+Hello {{ doctor.user.first_name|default:doctor.user.username }}, {{ message }}
+
+Patient: {{ patient }} ({{ patient.patient_id }})
+Date and time: {{ appointment_time|date:"l, d F Y" }} at {{ appointment_time|time:"g:i A" }}
+Reason: {{ appointment.concern }}
+
+Open calendar: {{ action_url }}

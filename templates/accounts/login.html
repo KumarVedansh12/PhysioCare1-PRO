@@ -10,11 +10,11 @@
             <h1>Welcome back</h1><p>Sign in to continue your care journey.</p>
             <form method="post" class="form-stack">{% csrf_token %}
                 <div class="form-group"><label for="username">Username</label><div class="input-icon"><i data-lucide="user"></i><input class="form-control" id="username" name="username" autocomplete="username" required autofocus placeholder="Enter your username"></div></div>
-                <div class="form-group"><div class="label-row"><label for="password">Password</label><a href="#">Forgot password?</a></div><div class="input-icon"><i data-lucide="lock-keyhole"></i><input class="form-control" type="password" id="password" name="password" autocomplete="current-password" required placeholder="Enter your password"><button class="password-toggle" type="button" aria-label="Show password"><i data-lucide="eye"></i></button></div></div>
+                <div class="form-group"><div class="label-row"><label for="password">Password</label><a href="{% url 'password_reset' %}">Forgot password?</a></div><div class="input-icon"><i data-lucide="lock-keyhole"></i><input class="form-control" type="password" id="password" name="password" autocomplete="current-password" required placeholder="Enter your password"><button class="password-toggle" type="button" aria-label="Show password"><i data-lucide="eye"></i></button></div></div>
                 <label class="check-row"><input type="checkbox" name="remember"> <span>Keep me signed in on this device</span></label>
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in securely <i data-lucide="arrow-right"></i></button>
             </form>
-            <div class="demo-login"><strong>Preview the complete portal</strong><span>Username: <code>patient</code> · Password: <code>Care@123</code></span></div>
+            <div class="demo-login"><strong>Preview the complete portal</strong><span>Patient: <code>patient</code> · Reception: <code>reception</code> · Password: <code>Care@123</code></span></div>
             <p class="auth-switch">New to PhysioCare? <a href="{% url 'register' %}">Create your account</a></p>
         </div>
         <div class="security-note"><i data-lucide="shield-check"></i><span><strong>Your privacy matters</strong>We use secure, encrypted access to protect your health information.</span></div>

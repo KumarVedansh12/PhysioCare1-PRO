@@ -1,0 +1,7 @@
+Hello {{ user.first_name|default:user.username }},
+
+Our reception team created your PhysioCare patient record.
+Verify your email and choose a password here:
+{{ activation_url }}
+
+If you were not expecting this message, contact the clinic and do not use the link.

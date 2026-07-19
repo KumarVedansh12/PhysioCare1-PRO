@@ -1,0 +1,6 @@
+{% extends "emails/base.html" %}{% block email_content %}
+<h1 style="font-size:28px;line-height:1.25;margin:0 0 14px">Appointment reminder</h1>
+<p>Hello {{ recipient_name }}, this is your {{ window }} reminder for the following appointment.</p>
+<table role="presentation" width="100%" style="background:#eef8f1;border-radius:12px;padding:18px"><tr><td><strong>{{ appointment.doctor }}</strong><br>{{ appointment_time|date:"l, d F Y" }} at {{ appointment_time|time:"g:i A" }}<br>{{ appointment.get_mode_display }} · {{ appointment.concern }}</td></tr></table>
+<p><a href="{{ action_url }}" style="display:inline-block;background:#237653;color:white;text-decoration:none;padding:13px 22px;border-radius:9px;font-weight:bold">Manage appointment</a></p>
+{% endblock %}

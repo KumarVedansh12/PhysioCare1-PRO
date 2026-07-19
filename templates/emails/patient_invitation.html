@@ -1,0 +1,7 @@
+{% extends "emails/base.html" %}{% block email_content %}
+<h1 style="font-size:28px;line-height:1.25;margin:0 0 14px">Welcome to PhysioCare</h1>
+<p>Hello {{ user.first_name|default:user.username }}, our reception team created your patient record.</p>
+<p>Use the secure button below to verify your email and choose a password for your patient portal.</p>
+<p><a href="{{ activation_url }}" style="display:inline-block;background:#237653;color:white;text-decoration:none;padding:13px 22px;border-radius:9px;font-weight:bold">Set up my account</a></p>
+<p>If you were not expecting this message, contact the clinic and do not use the link.</p>
+{% endblock %}

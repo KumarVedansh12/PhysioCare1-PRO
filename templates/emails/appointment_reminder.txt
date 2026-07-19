@@ -1,0 +1,10 @@
+Appointment reminder
+
+Hello {{ recipient_name }}, this is your {{ window }} reminder.
+
+Doctor: {{ appointment.doctor }}
+Date and time: {{ appointment_time|date:"l, d F Y" }} at {{ appointment_time|time:"g:i A" }}
+Mode: {{ appointment.get_mode_display }}
+Reason: {{ appointment.concern }}
+
+Manage appointment: {{ action_url }}
