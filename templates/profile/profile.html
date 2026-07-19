@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}My profile — PhysioCare{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="section-kicker">Account & health</span><h1>Personal profile</h1><p>Keep your details current so your care team can support you safely.</p></div></div>
+<div class="profile-layout">
+    <aside class="panel profile-summary"><div class="avatar avatar-xl">{{ user.first_name|first }}{{ user.last_name|first }}</div><h2>{{ user.get_full_name|default:user.username }}</h2><span class="patient-id">Patient ID · {{ patient.patient_id }}</span><div class="profile-completion"><div><span>Profile completeness</span><strong>85%</strong></div><div class="progress-track"><i style="width:85%"></i></div></div><nav class="profile-nav"><a class="active" href="#personal"><i data-lucide="user-round"></i> Personal details</a><a href="#medical"><i data-lucide="heart-pulse"></i> Medical history</a><a href="#previous"><i data-lucide="history"></i> Previous treatments</a><a href="#safety"><i data-lucide="shield-check"></i> Privacy & security</a></nav></aside>
+    <section class="panel profile-form-panel">
+        <form method="post" class="form-grid" id="personal">{% csrf_token %}
+            <div class="form-section-heading full-span"><span class="section-icon"><i data-lucide="user-round"></i></span><div><h2>Personal details</h2><p>Basic information used for appointments and communication.</p></div></div>
+            {% for field in form %}{% if field.name != 'conditions' and field.name != 'allergies' and field.name != 'surgeries' %}<div class="form-group {% if field.name == 'address' %}full-span{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endif %}{% endfor %}
+            <div class="form-divider full-span" id="medical"></div><div class="form-section-heading full-span"><span class="section-icon"><i data-lucide="heart-pulse"></i></span><div><h2>Medical history</h2><p>Only your authorised care team can view this information.</p></div></div>
+            {% for field in form %}{% if field.name == 'conditions' or field.name == 'allergies' or field.name == 'surgeries' %}<div class="form-group full-span"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}</div>{% endif %}{% endfor %}
+            <div class="form-actions full-span"><span><i data-lucide="lock-keyhole"></i> Changes are stored securely.</span><button type="submit" class="btn btn-primary">Save changes</button></div>
+        </form>
+        <div class="previous-treatments" id="previous"><div class="form-section-heading"><span class="section-icon"><i data-lucide="history"></i></span><div><h2>Previous treatments</h2><p>Your completed care plans.</p></div></div>{% for item in previous_treatments %}<div class="history-row"><span><i data-lucide="circle-check-big"></i></span><div><strong>{{ item.title }}</strong><small>{{ item.started_on|date:"M Y" }} · {{ item.doctor }}</small><p>{{ item.diagnosis }}</p></div></div>{% empty %}<div class="empty-state compact"><p>No previous treatments have been added.</p></div>{% endfor %}</div>
+    </section>
+</div>
+{% endblock %}

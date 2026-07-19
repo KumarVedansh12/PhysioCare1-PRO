@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ action_title }} — PhysioCare Doctor{% endblock %}
+{% block content %}
+<div class="page-heading"><div><a class="back-link" href="{% url 'doctor_dashboard' %}"><i data-lucide="arrow-left"></i> Doctor workspace</a><span class="section-kicker">Clinical action</span><h1>{{ action_title }}</h1><p>{{ action_description }}</p></div></div>
+<div class="clinical-form-layout">
+    <section class="panel clinical-form-panel"><div class="form-section-heading"><span class="section-icon"><i data-lucide="{{ action_icon }}"></i></span><div><h2>Care details</h2><p>Select a patient and complete the information below.</p></div></div><form method="post" enctype="multipart/form-data" class="form-stack spacious-form">{% csrf_token %}{% for field in form %}<div class="form-group"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<small class="help-text">{{ field.help_text }}</small>{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endfor %}<div class="form-actions"><span><i data-lucide="shield-check"></i> The patient will be notified securely.</span><button class="btn btn-primary" type="submit">Save and notify patient <i data-lucide="arrow-right"></i></button></div></form></section>
+    <aside class="panel clinical-form-aside"><span class="aside-icon"><i data-lucide="badge-check"></i></span><h2>Clinical safety</h2><ul class="check-list"><li><i data-lucide="check"></i> Confirm the correct patient</li><li><i data-lucide="check"></i> Use clear, patient-friendly instructions</li><li><i data-lucide="check"></i> Include review dates when relevant</li><li><i data-lucide="check"></i> All actions are added to the timeline</li></ul><a class="btn btn-secondary btn-block" href="{% url 'doctor_dashboard' %}#patients">Review patient list</a></aside>
+</div>
+{% endblock %}

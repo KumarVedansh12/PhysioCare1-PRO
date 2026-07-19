@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}PhysioCare — Move better, feel stronger{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <span class="eyebrow"><i data-lucide="sparkles"></i> Personal care, measurable progress</span>
+            <h1>Move better.<br><em>Live without limits.</em></h1>
+            <p>Expert physiotherapy with a care plan built around you. Book appointments, talk to your therapist, and follow your recovery—all in one calm, simple place.</p>
+            <div class="hero-actions">
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Start your recovery <i data-lucide="arrow-right"></i></a>
+                <a href="#how-it-works" class="btn btn-secondary btn-lg"><i data-lucide="circle-play"></i> See how it works</a>
+            </div>
+            <div class="trust-row">
+                <div class="avatar-stack"><span>AS</span><span>MK</span><span>RT</span><span>+</span></div>
+                <div><strong>4.9 <span class="stars">★★★★★</span></strong><small>Trusted by 2,000+ recovering patients</small></div>
+            </div>
+        </div>
+        <div class="hero-visual" aria-label="Physiotherapy care preview">
+            <div class="hero-orb"></div>
+            <div class="care-illustration">
+                <div class="illustration-ring ring-one"></div><div class="illustration-ring ring-two"></div>
+                <div class="illustration-person"><span class="person-head"></span><span class="person-body"></span><span class="person-arm"></span><span class="person-leg"></span></div>
+                <div class="illustration-leaf leaf-one"></div><div class="illustration-leaf leaf-two"></div>
+            </div>
+            <div class="floating-card appointment-float"><span class="float-icon"><i data-lucide="calendar-check"></i></span><div><small>Next appointment</small><strong>Today, 4:30 PM</strong><span>Dr. Meera Kapoor</span></div></div>
+            <div class="floating-card progress-float"><div class="mini-progress"><span>78%</span></div><div><small>Recovery progress</small><strong>You’re doing great!</strong></div></div>
+            <div class="privacy-pill"><i data-lucide="shield-check"></i> Your health data is protected</div>
+        </div>
+    </div>
+</section>
+
+<section class="trust-strip">
+    <div class="container trust-stats">
+        <div><strong>15+</strong><span>Expert therapists</span></div><div><strong>2,000+</strong><span>Patients supported</span></div><div><strong>10+</strong><span>Years of trusted care</span></div><div><strong>4.9/5</strong><span>Patient satisfaction</span></div>
+    </div>
+</section>
+
+<section class="section" id="services">
+    <div class="container">
+        <div class="section-heading centered"><span class="eyebrow">Care that stays connected</span><h2>Everything you need to recover well</h2><p>Simple tools, attentive specialists, and a clear view of your progress—from your first appointment to full recovery.</p></div>
+        <div class="service-grid">
+            <article class="service-card featured"><span class="service-icon"><i data-lucide="calendar-heart"></i></span><h3>Easy appointments</h3><p>Choose your specialist and a time that works. Reschedule or cancel without a phone call.</p><a href="{% url 'register' %}">Book a session <i data-lucide="arrow-right"></i></a></article>
+            <article class="service-card"><span class="service-icon"><i data-lucide="message-circle-heart"></i></span><h3>Your doctor, close by</h3><p>Ask questions securely, share reports, and get thoughtful follow-up support between visits.</p><a href="{% url 'register' %}">Explore support <i data-lucide="arrow-right"></i></a></article>
+            <article class="service-card"><span class="service-icon"><i data-lucide="chart-spline"></i></span><h3>Progress you can see</h3><p>Track pain, mobility, exercise consistency, and treatment milestones in clear language.</p><a href="{% url 'register' %}">View your progress <i data-lucide="arrow-right"></i></a></article>
+            <article class="service-card"><span class="service-icon"><i data-lucide="folder-lock"></i></span><h3>Records in one place</h3><p>Keep prescriptions, reports, scans, certificates, and invoices safe and easy to find.</p><a href="{% url 'register' %}">Keep records safe <i data-lucide="arrow-right"></i></a></article>
+        </div>
+    </div>
+</section>
+
+<section class="section soft-section" id="how-it-works">
+    <div class="container steps-layout">
+        <div class="section-heading"><span class="eyebrow">A gentler care journey</span><h2>Your recovery, made clear</h2><p>No complicated systems. Just three easy steps and a care team that keeps you informed.</p><a href="{% url 'register' %}" class="btn btn-primary">Create your patient account</a></div>
+        <div class="steps-list">
+            <article><span>01</span><div><h3>Tell us what hurts</h3><p>Create your health profile and share your goals in a few simple questions.</p></div></article>
+            <article><span>02</span><div><h3>Meet the right specialist</h3><p>Choose a therapist, visit the clinic or speak by secure video.</p></div></article>
+            <article><span>03</span><div><h3>Follow a plan that fits your life</h3><p>Complete guided exercises, ask questions, and watch your mobility improve.</p></div></article>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="specialists">
+    <div class="container">
+        <div class="section-heading centered"><span class="eyebrow">Experienced hands, thoughtful care</span><h2>Specialists who listen first</h2></div>
+        <div class="doctor-showcase">
+            <article><div class="doctor-portrait portrait-one"><span>MK</span></div><div><h3>Dr. Meera Kapoor</h3><p>Musculoskeletal Physiotherapist</p><span><i data-lucide="badge-check"></i> 12 years experience</span></div></article>
+            <article><div class="doctor-portrait portrait-two"><span>AR</span></div><div><h3>Dr. Arjun Rao</h3><p>Sports Rehabilitation Specialist</p><span><i data-lucide="badge-check"></i> 9 years experience</span></div></article>
+            <article><div class="doctor-portrait portrait-three"><span>NS</span></div><div><h3>Dr. Nisha Shah</h3><p>Neurological Physiotherapist</p><span><i data-lucide="badge-check"></i> 11 years experience</span></div></article>
+        </div>
+    </div>
+</section>
+
+<section class="section stories-section" id="stories">
+    <div class="container story-card"><div><span class="quote-mark">“</span><blockquote>For the first time, I understood exactly what I needed to do—and why. The gentle reminders and quick replies from my therapist kept me going on difficult days.</blockquote><div class="story-person"><span class="avatar avatar-lg">AS</span><div><strong>Anita Sharma</strong><small>Recovered from chronic back pain</small></div></div></div><div class="story-result"><span>Recovery milestone</span><strong>90%</strong><div class="progress-track"><i style="width:90%"></i></div><p>Back to morning walks in 8 weeks</p></div></div>
+</section>
+
+<section class="section cta-section"><div class="container cta-card"><div><span class="eyebrow">Your first step can be simple</span><h2>Ready to feel like yourself again?</h2><p>Join PhysioCare and meet a specialist who understands your goals.</p></div><a href="{% url 'register' %}" class="btn btn-light btn-lg">Begin your recovery <i data-lucide="arrow-right"></i></a></div></section>
+{% endblock %}

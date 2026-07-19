@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Create your patient account — PhysioCare{% endblock %}
+{% block body_class %}register-page{% endblock %}
+{% block content %}
+<section class="register-shell">
+    <div class="register-intro"><span class="eyebrow">Welcome to PhysioCare</span><h1>Let’s begin your recovery journey.</h1><p>Create your secure patient account. It takes about two minutes.</p><div class="register-benefits"><span><i data-lucide="calendar-check"></i><strong>Easy appointments</strong></span><span><i data-lucide="message-circle-heart"></i><strong>Direct doctor support</strong></span><span><i data-lucide="folder-lock"></i><strong>Private medical records</strong></span></div></div>
+    <div class="register-card">
+        <div class="form-heading"><div><span class="step-kicker">Step 1 of 2</span><h2>Your account details</h2></div><span class="secure-chip"><i data-lucide="lock-keyhole"></i> Secure</span></div>
+        <div class="step-progress"><span style="width:50%"></span></div>
+        <form method="post" class="form-grid">{% csrf_token %}
+            {% for field in form %}<div class="form-group {% if field.name == 'email' or field.name == 'username' or field.name == 'password1' or field.name == 'password2' %}full-span{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<small class="help-text">{{ field.help_text|safe }}</small>{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endfor %}
+            <label class="check-row full-span"><input type="checkbox" required> <span>I agree to the <a href="#">privacy policy</a> and consent to secure digital care.</span></label>
+            <button type="submit" class="btn btn-primary btn-lg full-span">Create my patient account <i data-lucide="arrow-right"></i></button>
+        </form>
+        <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+    </div>
+</section>
+{% endblock %}

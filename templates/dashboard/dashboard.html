@@ -1,0 +1,58 @@
+{% extends 'base.html' %}{% load static %}
+{% block title %}My dashboard — PhysioCare{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">{% endblock %}
+{% block content %}
+<div class="page-heading dashboard-heading">
+    <div><span class="today-label">{% now "l, d F Y" %}</span><h1>Good {% now "H" as current_hour %}{% if current_hour < '12' %}morning{% elif current_hour < '17' %}afternoon{% else %}evening{% endif %}, {{ user.first_name|default:user.username }}.</h1><p>Here’s a gentle overview of your recovery today.</p></div>
+    <a href="{% url 'book_appointment' %}" class="btn btn-primary"><i data-lucide="calendar-plus"></i> Book appointment</a>
+</div>
+
+<section class="next-care-card">
+    {% with next=upcoming.0 %}
+    <div class="next-care-copy">
+        <span class="card-eyebrow"><i data-lucide="calendar-check-2"></i> {% if next %}Your next appointment{% else %}Ready when you are{% endif %}</span>
+        {% if next %}<h2>{{ next.scheduled_at|date:"l, d F" }} <span>at {{ next.scheduled_at|date:"g:i A" }}</span></h2><div class="doctor-inline"><span class="avatar avatar-lg">{{ next.doctor.user.first_name|first }}{{ next.doctor.user.last_name|first }}</span><div><strong>{{ next.doctor }}</strong><small>{{ next.doctor.specialization }}</small></div></div>
+        <div class="appointment-meta"><span><i data-lucide="{% if next.mode == 'video' %}video{% else %}map-pin{% endif %}"></i>{{ next.get_mode_display }}</span><span><i data-lucide="clock-3"></i>{{ next.duration_minutes }} minutes</span><span class="status status-confirmed"><i></i>{{ next.get_status_display }}</span></div>
+        <div class="card-actions"><a href="{% url 'appointment_history' %}" class="btn btn-light">View details</a>{% if next.mode == 'video' %}<a href="{% url 'video_call' %}" class="btn btn-ghost-light"><i data-lucide="video"></i> Join when ready</a>{% endif %}</div>
+        {% else %}<h2>Plan your next session</h2><p>Your therapist is ready to help you move forward.</p><a href="{% url 'book_appointment' %}" class="btn btn-light">Choose a time</a>{% endif %}
+    </div>
+    <div class="next-care-art"><div class="care-circle"><i data-lucide="heart-pulse"></i></div><span class="orbit one"></span><span class="orbit two"></span><div class="care-tip"><i data-lucide="sparkles"></i><span><strong>Small steps matter</strong>Keep up your home exercises today.</span></div></div>
+    {% endwith %}
+</section>
+
+<section class="quick-actions" aria-labelledby="quick-actions-title"><div class="section-title-row"><div><span class="section-kicker">Shortcuts</span><h2 id="quick-actions-title">What would you like to do?</h2></div></div>
+    <div class="quick-grid">
+        <a href="{% url 'chat' %}" class="quick-card"><span class="quick-icon mint"><i data-lucide="message-circle-more"></i></span><span><strong>Ask your doctor</strong><small>Send a secure message</small></span><i data-lucide="chevron-right"></i></a>
+        <a href="{% url 'exercise_videos' %}" class="quick-card"><span class="quick-icon sky"><i data-lucide="person-standing"></i></span><span><strong>Today’s exercises</strong><small>{{ assignments|length }} activities assigned</small></span><i data-lucide="chevron-right"></i></a>
+        <a href="{% url 'reports' %}" class="quick-card"><span class="quick-icon peach"><i data-lucide="file-up"></i></span><span><strong>Upload a report</strong><small>Scans, labs, or documents</small></span><i data-lucide="chevron-right"></i></a>
+        <a href="{% url 'payments' %}" class="quick-card"><span class="quick-icon lavender"><i data-lucide="receipt-text"></i></span><span><strong>Payments & bills</strong><small>View invoices and dues</small></span><i data-lucide="chevron-right"></i></a>
+    </div>
+</section>
+
+<div class="dashboard-grid">
+    <section class="panel progress-panel">
+        <div class="panel-head"><div><span class="section-kicker">Treatment progress</span><h2>Your recovery at a glance</h2></div><a href="{% url 'progress' %}">See full progress <i data-lucide="arrow-right"></i></a></div>
+        {% if active_plan %}<div class="plan-summary"><div class="progress-ring" style="--progress:{{ active_plan.progress }}"><span><strong>{{ active_plan.progress }}%</strong><small>complete</small></span></div><div><span class="status status-active">Active plan</span><h3>{{ active_plan.title }}</h3><p>{{ active_plan.goal }}</p><div class="plan-meta"><span><i data-lucide="calendar-range"></i>Started {{ active_plan.started_on|date:"d M Y" }}</span>{% if active_plan.next_review %}<span><i data-lucide="refresh-cw"></i>Review {{ active_plan.next_review|date:"d M" }}</span>{% endif %}</div></div></div>{% else %}<div class="empty-state"><i data-lucide="clipboard-heart"></i><h3>Your treatment plan will appear here</h3><p>Book an assessment so your therapist can create a personalised plan.</p></div>{% endif %}
+        <div class="metric-row"><div><span class="metric-icon"><i data-lucide="activity"></i></span><span><small>Latest pain score</small><strong>{% with last=progress_entries|last %}{% if last %}{{ last.pain_score }}/10{% else %}—{% endif %}{% endwith %}</strong></span></div><div><span class="metric-icon"><i data-lucide="move-up-right"></i></span><span><small>Mobility</small><strong>{% with last=progress_entries|last %}{% if last %}{{ last.mobility_score }}%{% else %}—{% endif %}{% endwith %}</strong></span></div><div><span class="metric-icon"><i data-lucide="flame"></i></span><span><small>Exercise consistency</small><strong>{% with last=progress_entries|last %}{% if last %}{{ last.exercise_adherence }}%{% else %}—{% endif %}{% endwith %}</strong></span></div></div>
+    </section>
+
+    <section class="panel reminders-panel">
+        <div class="panel-head"><div><span class="section-kicker">Today</span><h2>Care reminders</h2></div><a href="{% url 'notifications' %}" aria-label="View all reminders"><i data-lucide="arrow-up-right"></i></a></div>
+        <div class="reminder-list">
+            {% for item in notifications %}<a href="{{ item.action_url|default:'#' }}" class="reminder-item"><span class="reminder-icon {{ item.notification_type }}"><i data-lucide="{% if item.notification_type == 'medicine' %}pill{% elif item.notification_type == 'exercise' %}dumbbell{% elif item.notification_type == 'payment' %}credit-card{% elif item.notification_type == 'appointment' %}calendar-clock{% else %}bell-ring{% endif %}"></i></span><span><strong>{{ item.title }}</strong><small>{{ item.message|truncatewords:12 }}</small></span>{% if not item.is_read %}<i class="unread-mark"></i>{% endif %}</a>{% empty %}<div class="empty-state compact"><i data-lucide="bell-check"></i><h3>You’re all caught up</h3><p>No new reminders right now.</p></div>{% endfor %}
+        </div>
+    </section>
+
+    <section class="panel prescriptions-panel">
+        <div class="panel-head"><div><span class="section-kicker">Health records</span><h2>Recent prescriptions</h2></div><a href="{% url 'reports' %}">View all <i data-lucide="arrow-right"></i></a></div>
+        <div class="document-list">{% for item in prescriptions %}<div class="document-row"><span class="document-icon"><i data-lucide="file-text"></i></span><div><strong>{{ item.diagnosis }}</strong><span>{{ item.issued_on|date:"d M Y" }} · {{ item.doctor }}</span></div><a class="icon-button" href="{% url 'prescription_pdf' item.pk %}" aria-label="Download prescription"><i data-lucide="download"></i></a></div>{% empty %}<div class="empty-state compact"><p>No prescriptions added yet.</p></div>{% endfor %}</div>
+    </section>
+
+    <section class="panel support-panel">
+        <div class="support-avatar"><i data-lucide="stethoscope"></i></div><span class="section-kicker">Your care team is here</span><h2>Not sure about an exercise?</h2><p>Send your therapist a message, photo, video, or report. Most questions are answered within clinic hours.</p><div><a class="btn btn-primary" href="{% url 'chat' %}"><i data-lucide="message-circle"></i> Start a secure chat</a><a class="text-action" href="tel:+918001234567"><i data-lucide="phone-call"></i> Emergency contact</a></div>
+    </section>
+</div>
+
+<div class="demo-switcher"><span>Role-protected previews:</span><span><i data-lucide="stethoscope"></i> Doctor · drmeera</span><span><i data-lucide="shield-check"></i> Admin · admin</span><a href="{% url 'logout' %}">Switch account</a></div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/dashboard.js' %}"></script>{% endblock %}

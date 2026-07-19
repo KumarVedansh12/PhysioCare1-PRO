@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Appointments — PhysioCare{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="section-kicker">My schedule</span><h1>Appointments</h1><p>Manage upcoming visits and look back at previous sessions.</p></div><a href="{% url 'book_appointment' %}" class="btn btn-primary"><i data-lucide="calendar-plus"></i> Book appointment</a></div>
+<section class="panel tabbed-panel" data-tabs>
+    <div class="tabs" role="tablist"><button class="active" data-tab="upcoming" role="tab">Upcoming</button><button data-tab="past" role="tab">Previous</button><button data-tab="cancelled" role="tab">Cancelled</button></div>
+    <div class="appointment-list">
+    {% for item in appointments %}<article class="appointment-card" data-tab-item="{% if item.status == 'cancelled' %}cancelled{% elif item.scheduled_at >= now %}upcoming{% else %}past{% endif %}">
+        <div class="appointment-date"><strong>{{ item.scheduled_at|date:"d" }}</strong><span>{{ item.scheduled_at|date:"M" }}</span><small>{{ item.scheduled_at|date:"D" }}</small></div>
+        <div class="appointment-main"><div class="appointment-title"><span class="avatar avatar-lg">{{ item.doctor.user.first_name|first }}{{ item.doctor.user.last_name|first }}</span><div><h2>{{ item.doctor }}</h2><p>{{ item.doctor.specialization }}</p></div></div><div class="appointment-details"><span><i data-lucide="clock"></i>{{ item.scheduled_at|date:"g:i A" }} · {{ item.duration_minutes }} min</span><span><i data-lucide="{% if item.mode == 'video' %}video{% else %}map-pin{% endif %}"></i>{{ item.get_mode_display }}</span><span><i data-lucide="notebook-pen"></i>{{ item.concern }}</span></div></div>
+        <div class="appointment-actions"><span class="status status-{{ item.status }}"><i></i>{{ item.get_status_display }}</span>{% if item.scheduled_at >= now and item.status != 'cancelled' %}<a class="btn btn-secondary btn-sm" href="{% url 'reschedule_appointment' item.pk %}">Reschedule</a><form method="post" action="{% url 'cancel_appointment' item.pk %}" onsubmit="return confirm('Cancel this appointment?')">{% csrf_token %}<button class="btn-link danger" type="submit">Cancel</button></form>{% endif %}</div>
+    </article>{% empty %}<div class="empty-state"><i data-lucide="calendar-search"></i><h3>No appointments yet</h3><p>Choose a therapist and a convenient time to begin.</p><a href="{% url 'book_appointment' %}" class="btn btn-primary">Book your first appointment</a></div>{% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{% if rescheduling %}Reschedule appointment{% else %}Book an appointment{% endif %} — PhysioCare{% endblock %}
+{% block content %}
+<div class="page-heading"><div><a href="{% url 'appointment_history' %}" class="back-link"><i data-lucide="arrow-left"></i> Appointments</a><h1>{% if rescheduling %}Choose a new time{% else %}Book an appointment{% endif %}</h1><p>Find the right therapist and a time that feels comfortable for you.</p></div></div>
+<div class="booking-layout">
+    <section class="panel booking-form-panel"><div class="step-tabs"><span class="active"><i>1</i> Care details</span><span><i>2</i> Confirmation</span></div>
+        <form method="post" class="form-stack spacious-form">{% csrf_token %}
+            {% for field in form %}<div class="form-group"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<small class="help-text">{{ field.help_text }}</small>{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endfor %}
+            <div class="info-strip"><i data-lucide="bell-ring"></i><span><strong>We’ll remind you</strong>Your preferred reminder will arrive 24 hours and 2 hours before the session.</span></div>
+            <button type="submit" class="btn btn-primary btn-lg">{% if rescheduling %}Confirm new time{% else %}Confirm appointment{% endif %} <i data-lucide="arrow-right"></i></button>
+        </form>
+    </section>
+    <aside class="booking-aside"><div class="panel"><span class="aside-icon"><i data-lucide="shield-check"></i></span><h2>Book with confidence</h2><ul class="check-list"><li><i data-lucide="check"></i> Easy rescheduling</li><li><i data-lucide="check"></i> Secure video option</li><li><i data-lucide="check"></i> Clear reminders</li><li><i data-lucide="check"></i> Your records stay private</li></ul></div><div class="support-note"><i data-lucide="phone"></i><div><strong>Prefer to call?</strong><span>Our team can book for you.</span><a href="tel:+918001234567">+91 800 123 4567</a></div></div></aside>
+</div>
+{% endblock %}

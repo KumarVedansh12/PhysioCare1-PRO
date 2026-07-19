@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Sign in — PhysioCare{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-panel">
+        <a href="{% url 'home' %}" class="back-link"><i data-lucide="arrow-left"></i> Back to home</a>
+        <div class="auth-card">
+            <span class="auth-icon"><i data-lucide="heart-pulse"></i></span>
+            <h1>Welcome back</h1><p>Sign in to continue your care journey.</p>
+            <form method="post" class="form-stack">{% csrf_token %}
+                <div class="form-group"><label for="username">Username</label><div class="input-icon"><i data-lucide="user"></i><input class="form-control" id="username" name="username" autocomplete="username" required autofocus placeholder="Enter your username"></div></div>
+                <div class="form-group"><div class="label-row"><label for="password">Password</label><a href="#">Forgot password?</a></div><div class="input-icon"><i data-lucide="lock-keyhole"></i><input class="form-control" type="password" id="password" name="password" autocomplete="current-password" required placeholder="Enter your password"><button class="password-toggle" type="button" aria-label="Show password"><i data-lucide="eye"></i></button></div></div>
+                <label class="check-row"><input type="checkbox" name="remember"> <span>Keep me signed in on this device</span></label>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in securely <i data-lucide="arrow-right"></i></button>
+            </form>
+            <div class="demo-login"><strong>Preview the complete portal</strong><span>Username: <code>patient</code> · Password: <code>Care@123</code></span></div>
+            <p class="auth-switch">New to PhysioCare? <a href="{% url 'register' %}">Create your account</a></p>
+        </div>
+        <div class="security-note"><i data-lucide="shield-check"></i><span><strong>Your privacy matters</strong>We use secure, encrypted access to protect your health information.</span></div>
+    </div>
+    <div class="auth-visual"><div class="auth-visual-copy"><span class="eyebrow">Care that continues at home</span><h2>Everything for your recovery, in one peaceful place.</h2><ul><li><i data-lucide="circle-check"></i> Speak directly with your therapist</li><li><i data-lucide="circle-check"></i> Never miss medicine or exercises</li><li><i data-lucide="circle-check"></i> See your progress clearly</li></ul></div><div class="auth-art"><span class="art-circle"></span><span class="art-leaf a"></span><span class="art-leaf b"></span><span class="art-person"></span></div></div>
+</section>
+{% endblock %}

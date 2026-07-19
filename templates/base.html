@@ -1,0 +1,137 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="PhysioCare — thoughtful physiotherapy, connected care, and better recovery.">
+    <title>{% block title %}PhysioCare{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% if user.is_authenticated %}portal-body{% else %}public-body{% endif %} {% block body_class %}{% endblock %}">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+{% if user.is_authenticated %}
+<div class="mobile-appbar">
+    <button class="icon-button" type="button" data-sidebar-toggle aria-label="Open navigation"><i data-lucide="menu"></i></button>
+    <a href="{% url 'dashboard' %}" class="brand brand-compact"><span class="brand-mark">P</span><span>PhysioCare</span></a>
+    <a href="{% url 'notifications' %}" class="icon-button notification-button" aria-label="Notifications"><i data-lucide="bell"></i>{% if unread_count %}<span class="notification-dot"></span>{% endif %}</a>
+</div>
+<aside class="sidebar" id="portal-sidebar" aria-label="Patient portal navigation">
+    <div class="sidebar-head">
+        <a href="{% url 'dashboard' %}" class="brand"><span class="brand-mark">P</span><span>PhysioCare<small>Better movement. Better life.</small></span></a>
+        <button class="icon-button sidebar-close" data-sidebar-toggle type="button" aria-label="Close navigation"><i data-lucide="x"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+        {% if user.is_staff %}
+        <p class="nav-label">Clinic operations</p>
+        <a class="active" href="{% url 'admin_dashboard' %}"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+        <a href="{% url 'admin_manage' 'appointments' %}"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+        <a href="{% url 'admin_manage' 'patients' %}"><i data-lucide="users"></i><span>Doctors & patients</span></a>
+        <a href="{% url 'admin_manage' 'payments' %}"><i data-lucide="wallet-cards"></i><span>Payment reports</span></a>
+        <a href="{% url 'admin_dashboard' %}#reports"><i data-lucide="chart-no-axes-combined"></i><span>Reports & analytics</span></a>
+        <p class="nav-label">Management</p>
+        <a href="{% url 'admin_manage' 'cms' %}"><i data-lucide="panels-top-left"></i><span>Website CMS</span></a>
+        <a href="{% url 'admin_manage' 'roles' %}"><i data-lucide="key-round"></i><span>Roles & staff</span></a>
+        <a href="{% url 'admin_manage' 'backup' %}"><i data-lucide="database-backup"></i><span>Backup & restore</span></a>
+        <a href="/django-admin/"><i data-lucide="settings-2"></i><span>Advanced admin</span></a>
+        {% elif user.doctor_profile %}
+        <p class="nav-label">Clinical care</p>
+        <a class="active" href="{% url 'doctor_dashboard' %}"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+        <a href="{% url 'doctor_calendar' %}"><i data-lucide="calendar-days"></i><span>Appointment calendar</span></a>
+        <a href="{% url 'doctor_dashboard' %}#patients"><i data-lucide="users"></i><span>Manage patients</span></a>
+        <a href="{% url 'doctor_messages' %}"><i data-lucide="messages-square"></i><span>Patient messages</span></a>
+        <p class="nav-label">Clinical tools</p>
+        <a href="{% url 'doctor_action' 'prescription' %}"><i data-lucide="file-plus-2"></i><span>Digital prescriptions</span></a>
+        <a href="{% url 'doctor_action' 'exercise' %}"><i data-lucide="dumbbell"></i><span>Exercise assignment</span></a>
+        <a href="{% url 'doctor_dashboard' %}#analytics"><i data-lucide="chart-column"></i><span>Progress & analytics</span></a>
+        <a href="{% url 'notifications' %}"><i data-lucide="bell"></i><span>Notifications</span></a>
+        {% else %}
+        <p class="nav-label">My care</p>
+        <a class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a class="{% if request.resolver_match.url_name == 'book_appointment' or request.resolver_match.url_name == 'appointment_history' %}active{% endif %}" href="{% url 'appointment_history' %}"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+        <a class="{% if request.resolver_match.url_name == 'treatment_plan' %}active{% endif %}" href="{% url 'treatment_plan' %}"><i data-lucide="clipboard-heart"></i><span>Treatment plan</span></a>
+        <a class="{% if request.resolver_match.url_name == 'exercise_videos' %}active{% endif %}" href="{% url 'exercise_videos' %}"><i data-lucide="activity"></i><span>My exercises</span></a>
+        <a class="{% if request.resolver_match.url_name == 'progress' %}active{% endif %}" href="{% url 'progress' %}"><i data-lucide="chart-no-axes-combined"></i><span>My progress</span></a>
+        <p class="nav-label">Health & support</p>
+        <a class="{% if request.resolver_match.url_name == 'reports' %}active{% endif %}" href="{% url 'reports' %}"><i data-lucide="folder-heart"></i><span>Medical records</span></a>
+        <a class="{% if request.resolver_match.url_name == 'chat' %}active{% endif %}" href="{% url 'chat' %}"><i data-lucide="messages-square"></i><span>Chat with doctor</span><span class="nav-badge">Secure</span></a>
+        <a class="{% if request.resolver_match.url_name == 'video_call' %}active{% endif %}" href="{% url 'video_call' %}"><i data-lucide="video"></i><span>Video consultation</span></a>
+        <a class="{% if request.resolver_match.url_name == 'payments' %}active{% endif %}" href="{% url 'payments' %}"><i data-lucide="wallet-cards"></i><span>Payments</span></a>
+        <a class="{% if request.resolver_match.url_name == 'community' %}active{% endif %}" href="{% url 'community' %}"><i data-lucide="heart-handshake"></i><span>Help & community</span></a>
+        {% endif %}
+    </nav>
+    <div class="sidebar-help">
+        <div class="help-icon"><i data-lucide="headphones"></i></div>
+        <div><strong>Need help?</strong><span>Call our care team</span><a href="tel:+918001234567">+91 800 123 4567</a></div>
+    </div>
+    <div class="sidebar-user">
+        <span class="avatar">{{ user.first_name|first|default:user.username|first|upper }}</span>
+        <div><strong>{{ user.get_full_name|default:user.username }}</strong><span>{% if user.is_staff %}Administrator account{% elif user.doctor_profile %}Doctor account{% else %}Patient account{% endif %}</span></div>
+        {% if not user.is_staff and not user.doctor_profile %}<a href="{% url 'profile' %}" class="icon-button" aria-label="Open profile"><i data-lucide="settings"></i></a>{% endif %}
+    </div>
+    <a href="{% url 'logout' %}" class="sidebar-logout"><i data-lucide="log-out"></i><span>Log out</span></a>
+</aside>
+<div class="sidebar-backdrop" data-sidebar-toggle></div>
+<main class="app-main" id="main-content">
+    <header class="portal-topbar">
+        <div class="portal-search"><i data-lucide="search"></i><input type="search" placeholder="Search appointments, reports, exercises…" aria-label="Search portal"></div>
+        <div class="topbar-actions">
+            <a class="icon-button" href="{% url 'notifications' %}" aria-label="Notifications"><i data-lucide="bell"></i>{% if unread_count %}<span class="count-badge">{{ unread_count }}</span>{% endif %}</a>
+            <a class="profile-chip" href="{% if user.is_staff %}{% url 'admin_dashboard' %}{% elif user.doctor_profile %}{% url 'doctor_dashboard' %}{% else %}{% url 'profile' %}{% endif %}"><span class="avatar">{{ user.first_name|first|default:user.username|first|upper }}</span><span><strong>{{ user.first_name|default:user.username }}</strong><small>{% if user.is_staff %}Admin account{% elif user.doctor_profile %}Doctor account{% else %}View profile{% endif %}</small></span><i data-lucide="chevron-down"></i></a>
+            <a class="topbar-logout" href="{% url 'logout' %}" aria-label="Log out"><i data-lucide="log-out"></i><span>Log out</span></a>
+        </div>
+    </header>
+    <div class="page-content">
+{% else %}
+<header class="public-header">
+    <div class="container nav-wrap">
+        <a href="{% url 'home' %}" class="brand"><span class="brand-mark">P</span><span>PhysioCare<small>Better movement. Better life.</small></span></a>
+        <button class="mobile-menu-button icon-button" type="button" aria-label="Open menu" data-public-menu><i data-lucide="menu"></i></button>
+        <nav class="public-nav" data-public-nav>
+            <a href="{% url 'home' %}#services">Services</a>
+            <a href="{% url 'home' %}#how-it-works">How it works</a>
+            <a href="{% url 'home' %}#specialists">Our specialists</a>
+            <a href="{% url 'home' %}#stories">Patient stories</a>
+            <a class="text-link" href="{% url 'login' %}">Sign in</a>
+            <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Get started</a>
+        </nav>
+    </div>
+</header>
+<main id="main-content">
+{% endif %}
+
+{% if messages %}
+<div class="toast-stack" aria-live="polite">
+    {% for message in messages %}<div class="toast-message {{ message.tags }}"><i data-lucide="{% if message.tags == 'error' %}circle-alert{% else %}circle-check{% endif %}"></i><span>{{ message }}</span><button type="button" aria-label="Dismiss" onclick="this.parentElement.remove()"><i data-lucide="x"></i></button></div>{% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+{% if user.is_authenticated %}
+    </div>
+</main>
+{% else %}
+</main>
+<footer class="public-footer">
+    <div class="container footer-grid">
+        <div><a href="{% url 'home' %}" class="brand brand-light"><span class="brand-mark">P</span><span>PhysioCare</span></a><p>Thoughtful, connected physiotherapy for every stage of recovery.</p></div>
+        <div><strong>Care</strong><a href="#services">Services</a><a href="#specialists">Specialists</a><a href="{% url 'login' %}">Patient login</a></div>
+        <div><strong>Support</strong><a href="tel:+918001234567">+91 800 123 4567</a><a href="mailto:care@physiocare.in">care@physiocare.in</a><span>Mon–Sat, 8am–8pm</span></div>
+        <div><strong>Clinic</strong><span>12, Wellness Avenue</span><span>Bengaluru, India</span><a href="#">Privacy & safety</a></div>
+    </div>
+    <div class="container footer-bottom"><span>© {% now "Y" %} PhysioCare. All rights reserved.</span><span>HIPAA-minded • Secure • Patient-first</span></div>
+</footer>
+{% endif %}
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="{% static 'js/app.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
